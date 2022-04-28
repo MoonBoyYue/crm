@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.crm.dao.ActivityRemarkDao">
+    <select id="selectCount" resultType="int">
+        select count(id) from t_activityremark where activityId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </select>
+
+    <delete id="delete">
+        delete from t_activityremark where activityId in
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+
+    <select id="getRemark" resultType="com.crm.bean.ActivityRemark">
+        select * from t_activityremark where activityId=#{activityId}
+    </select>
+
+    <delete id="deleteRemark">
+        delete from t_activityremark where id=#{id}
+    </delete>
+
+    <insert id="addRemark">
+        insert into t_activityremark(id,noteContent,createTime,createBy,editFlag,activityId)
+        values (#{id},#{noteContent},#{createTime},#{createBy},#{editFlag},#{activityId})
+    </insert>
+
+    <update id="editRemark">
+        update t_activityremark set noteContent=#{noteContent},editFlag=#{editFlag},editTime=#{editTime},editBy=#{editBy} where id=#{id}
+    </update>
+</mapper>
